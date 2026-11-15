@@ -1,6 +1,6 @@
 # IncidentHub
 
-**A synthetic incident-response application for the Container Days workshop: “Trust the Box, Not the Agent: Sandboxing Coding Agents from Laptop to Cloud.”**
+**A synthetic incident-response application fo a workshop: “Trust the Box, Not the Agent: Sandboxing Coding Agents from Laptop to Cloud.”**
 
 IncidentHub gives a coding agent a realistic task: investigate a checkout latency incident, identify a deliberate regression, write a regression test and fix it. The incident evidence also contains a clearly marked prompt-injection attempt, demonstrating why untrusted content must not become instructions.
 
