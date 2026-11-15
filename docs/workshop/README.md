@@ -1,4 +1,4 @@
-# IncidentHub workshop — step-by-step guide
+# IncidentHub workshop , step-by-step guide
 
 **Trust the Box, Not the Agent: Sandboxing Coding Agents from Laptop to Cloud**
 
@@ -8,14 +8,14 @@ This is the participant runbook. Follow the pages in order. Each page contains t
 
 | Page | Stage | Suggested time |
 |---|---|---:|
-| [00 — Start here](00-start-here.md) | Goals, story and safety rules | 3 min |
-| [01 — Prepare your environment](01-prepare.md) | Install/sign in, clone the repo, check policy | 7 min |
-| [02 — Create the local sandbox](02-local-sandbox.md) | Launch the agent and start IncidentHub | 8 min |
-| [03 — Investigate the incident](03-investigate.md) | Read evidence, measure latency, observe prompt injection | 8 min |
-| [04 — Control network access](04-control.md) | Add, test, inspect and remove a deny rule | 7 min |
-| [05 — Fix the incident](05-fix.md) | Give the agent a bounded task and verify the regression test | 10 min |
-| [06 — Repeat in Cloud Sandboxes](06-cloud.md) | Clone, run, attach, expose a port and clean up cloud resources | 10 min |
-| [07 — Cleanup and wrap up](07-cleanup.md) | Stop services, remove sandboxes, preserve code changes | 3 min |
+| [00 , Start here](00-start-here.md) | Goals, story and safety rules | 3 min |
+| [01 , Prepare your environment](01-prepare.md) | Install/sign in, clone the repo, check policy | 7 min |
+| [02 , Create the local sandbox](02-local-sandbox.md) | Launch the agent and start IncidentHub | 8 min |
+| [03 , Investigate the incident](03-investigate.md) | Read evidence, measure latency, observe prompt injection | 8 min |
+| [04 , Control network access](04-control.md) | Add, test, inspect and remove a deny rule | 7 min |
+| [05 , Fix the incident](05-fix.md) | Give the agent a bounded task and verify the regression test | 10 min |
+| [06 , Repeat in Cloud Sandboxes](06-cloud.md) | Clone, run, attach, expose a port and clean up cloud resources | 10 min |
+| [07 , Cleanup and wrap up](07-cleanup.md) | Stop services, remove sandboxes, preserve code changes | 3 min |
 
 ## Prerequisites
 
@@ -31,8 +31,8 @@ This is the participant runbook. Follow the pages in order. Each page contains t
 
 For the local portion, keep two terminals open:
 
-- **Terminal A — host:** run `sbx` lifecycle and policy commands.
-- **Terminal B — host:** run `sbx exec` commands to operate the application inside the sandbox.
+- **Terminal A , host:** run `sbx` lifecycle and policy commands.
+- **Terminal B , host:** run `sbx exec` commands to operate the application inside the sandbox.
 
 The Claude Code session opens in Terminal A when you run `sbx run`. You can also interact with the agent there while using Terminal B for repeatable shell commands.
 
