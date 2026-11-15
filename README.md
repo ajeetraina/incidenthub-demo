@@ -33,9 +33,18 @@ In a second host terminal, start the application inside the sandbox:
 sbx exec incidenthub-local -- docker compose up --build -d
 sbx exec incidenthub-local -- docker compose ps
 sbx exec incidenthub-local -- curl -fsS http://localhost:8000/api/health
+sbx exec incidenthub-local -- curl -fsS http://localhost:8001/health
 ```
 
-Open http://localhost:8000 on the host. The checkout summary endpoint intentionally sleeps for 1.25 seconds; the regression test expects a response in under 350ms and should fail before the workshop fix.
+Open http://localhost:8000 on the host. To attach the bundled MCP server to this sandbox, publish its port and register the remote endpoint from the host:
+
+```bash
+sbx ports incidenthub-local --publish 18001:8001
+sbx mcp add incidenthub-readonly --url http://localhost:18001/mcp --skip-ssrf-check
+sbx mcp load incidenthub-readonly --sandbox incidenthub-local
+```
+
+The MCP server exposes `list_incidents`, `get_incident`, `get_checkout_summary` and the write operation `acknowledge_incident`. See the [MCP governance walkthrough](docs/workshop/08-mcp-cedar-audit.md) for Cedar and audit setup. The checkout summary endpoint intentionally sleeps for 1.25 seconds; the regression test expects a response in under 350ms and should fail before the workshop fix.
 
 ```bash
 sbx exec incidenthub-local -- python3 -m pip install pytest==8.3.5
