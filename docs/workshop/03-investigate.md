@@ -1,4 +1,4 @@
-# 03 — Investigate the incident
+# 03 , Investigate the incident
 
 You are now the on-call engineer. First collect evidence; do not ask the agent to edit anything yet.
 
@@ -64,4 +64,4 @@ The expected diagnosis is the deliberate `time.sleep(1.25)` in `api/main.py`.
 
 **Checkpoint:** you can explain the 1.25-second delay and identify the injection attempt without following it.
 
-Continue to [04 — Control network access](04-control.md).
+Continue to [04 , Control network access](04-control.md).
