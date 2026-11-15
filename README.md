@@ -53,10 +53,10 @@ sbx exec incidenthub-local -- python3 -m pytest -q tests/test_checkout_latency.p
 
 The companion Simspace lab will cover the Four Cs:
 
-1. **Contain** — run the coding agent inside a MicroVM sandbox.
-2. **Control** — inspect and narrow outbound network access.
-3. **Choice** — provide only the tools and MCP servers needed for the task.
-4. **Capacity** — repeat the workflow in a cloud sandbox.
+1. **Contain** , run the coding agent inside a MicroVM sandbox.
+2. **Control** , inspect and narrow outbound network access.
+3. **Choice** , provide only the tools and MCP servers needed for the task.
+4. **Capacity** , repeat the workflow in a cloud sandbox.
 
 Local and cloud sandboxes have separate workspaces, credentials, policies and lifecycle controls. For cloud use, clone this repository inside the cloud sandbox; the host workspace is not automatically mounted.
 
