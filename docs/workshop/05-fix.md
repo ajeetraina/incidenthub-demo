@@ -1,4 +1,4 @@
-# 05 — Fix the incident
+# 05 , Fix the incident
 
 Now give the agent a narrowly scoped coding task. The goal is to remove the artificial blocking delay and prove the endpoint meets the latency objective.
 
@@ -60,4 +60,4 @@ The default local sandbox workspace mode shares the working tree, so changes mad
 
 **Checkpoint:** the endpoint is faster, the regression test passes, and you can explain exactly what changed.
 
-Continue to [06 — Repeat in Cloud Sandboxes](06-cloud.md).
+Continue to [06 , Repeat in Cloud Sandboxes](06-cloud.md).
