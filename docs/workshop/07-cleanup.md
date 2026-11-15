@@ -2,7 +2,17 @@
 
 Clean up the application stack, sandbox resources, temporary network rules and any cloud resources.
 
-## 1. Stop the local application stack
+## 1. Detach and remove the MCP registration
+
+If you completed Page 08, remove the server from the sandbox gateway and the host registration, then close the forwarded port:
+
+```bash
+sbx mcp unload incidenthub-readonly --sandbox incidenthub-local
+sbx mcp rm incidenthub-readonly
+sbx ports incidenthub-local --unpublish 18001:8001
+```
+
+## 2. Stop the local application stack
 
 From the host terminal:
 
@@ -18,7 +28,7 @@ sbx exec incidenthub-local -- docker compose down -v
 
 The `-v` option deletes the database volume and its workshop data. Use it only when you are happy to reset the demo.
 
-## 2. Stop and remove the local sandbox
+## 3. Stop and remove the local sandbox
 
 ```bash
 sbx stop incidenthub-local
@@ -28,7 +38,7 @@ sbx rm incidenthub-local
 
 Removing a sandbox deletes its MicroVM filesystem. The default local workspace is a shared host working tree, so your project files remain in the cloned repository.
 
-## 3. Remove any leftover test policy
+## 4. Remove any leftover test policy
 
 If you did not remove the example.com rule on Page 04:
 
@@ -38,7 +48,7 @@ sbx policy rm network --sandbox incidenthub-local --resource example.com
 
 If the sandbox has already been removed, its sandbox-scoped rules are removed with it.
 
-## 4. Remove the cloud sandbox
+## 5. Remove the cloud sandbox
 
 If you completed Page 06:
 
@@ -50,7 +60,7 @@ sbx --cloud ls
 
 Cloud removal is permanent for that sandbox. Do not rely on the default one-hour TTL as your cleanup plan.
 
-## 5. Review and preserve your code changes
+## 6. Review and preserve your code changes
 
 Back in your host checkout:
 

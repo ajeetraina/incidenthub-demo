@@ -8,6 +8,7 @@ This diagram shows the complete workshop topology, including the Docker Sandbox 
 flowchart TB
     Dev["Developer / Workshop participant"]
     CLI["Docker Sandboxes CLI (sbx)"]
+    Gateway["Host-managed MCP gateway"]
     Admin["Organization admin\nDocker AI Governance"]
     Cedar["Cedar MCP policy\n(default deny + permits)"]
     Audit["Audit logs\n(policy decisions + lifecycle)"]
@@ -24,6 +25,7 @@ flowchart TB
         DB[("PostgreSQL\nincidents table")]
         Redis[("Redis\nevent queue")]
         Worker["Background worker"]
+      MCP["FastMCP server\n:8001 /mcp"]
       end
 
       Agent -->|"inspect / edit code\nrun tests"| Workspace["IncidentHub workspace"]
@@ -36,16 +38,19 @@ flowchart TB
       Engine --> Worker
       UI -->|"HTTP API calls"| API
       API -->|"read / update incidents"| DB
+      MCP -->|"HTTP API requests"| API
       API -->|"enqueue acknowledgement event"| Redis
       Redis -->|"BRPOP event"| Worker
     end
 
     Admin --> Cedar
-    Cedar -->|"governs MCP gateway requests"| Boundary
-    Boundary -->|"policy decision metadata"| Audit
     Admin --> Audit
     Dev --> CLI
     CLI -->|"create / attach / manage"| Boundary
+    Agent -->|"MCP tool calls"| Gateway
+    Gateway -->|"route to registered endpoint"| MCP
+    Cedar -->|"authorize registration and calls"| Gateway
+    Gateway -->|"decision metadata"| Audit
     Browser -->|"HTTP :8000 via sandbox-published port"| UI
     Dev -->|"review changes / test results"| Browser
 
@@ -53,7 +58,7 @@ flowchart TB
     classDef service fill:#17372f,stroke:#58c99a,color:#f4fff9
     classDef data fill:#3b2d18,stroke:#e5b45e,color:#fff8e8
     class Dev,CLI,Browser,Agent,Workspace actor
-    class Engine,Compose,UI,API,Worker service
+    class Engine,Compose,UI,API,Worker,MCP service
     class DB,Redis data
 ```
 
@@ -70,8 +75,8 @@ flowchart TB
 
 - **Contain:** the coding agent and its commands execute inside the MicroVM boundary. The sandbox uses its own Docker Engine rather than mounting the host Docker socket.
 - **Control:** outbound agent traffic is governed by the sandbox network policy/proxy. The Compose application network is separate from the agent's outbound network path.
-- **Choice:** only task-appropriate tools and MCP servers should be made available to the agent. Prefer read-only incident lookup capabilities for this exercise.
-- **Govern:** organization-scoped Cedar MCP policies can allow or deny server registration and gateway-mediated tool, resource, prompt and built-in gateway operations. This requires Docker AI Governance and applies to governed local sandboxes. Pair it with network policy because direct MCP connections are governed by outbound network rules, not gateway Cedar policy.
+- **Choice:** the FastMCP service exposes three read-only incident lookup tools and one write tool. The Docker Sandboxes MCP gateway registers and loads the remote endpoint for the sandbox.
+- **MCP governance:** organization Cedar policy controls registration and gateway-mediated calls. The write tool is marked non-read-only and destructive, so a policy can require in-session confirmation or forbid it. Direct MCP connections bypass gateway Cedar policy and must be controlled by network policy.
 - **Audit:** audit logs record policy decisions and sandbox lifecycle metadata for governed local sandboxes. They do not capture prompts, agent output or tool argument values. Cloud sandboxes use separate cloud policy logs.
 - **Capacity:** local and cloud sandboxes are separate environments. A cloud sandbox does not automatically inherit the local workspace, credentials or policy; clone the repository and configure required resources there.
 
@@ -87,9 +92,9 @@ flowchart TB
 | PostgreSQL | Stores the seeded synthetic incident records |
 | Redis | Buffers acknowledgement events |
 | Worker | Consumes events from Redis |
+| FastMCP server | Exposes incident lookup and acknowledgement tools over Streamable HTTP |
+| Docker Sandboxes MCP gateway | Routes registered MCP tools to the sandboxed agent |
+| Cedar policy and audit | Governs MCP registration/tool use and records policy decisions where AI Governance is enabled |
 | Regression test | Checks that checkout summary responds in under 350ms |
-| MCP gateway | Brokers registered MCP servers for supported agents |
-| Cedar MCP policy | Organization-level authorization for gateway-mediated MCP operations |
-| Audit logs | Records policy decisions and sandbox lifecycle metadata for governed local sandboxes |
 
 > **Prerequisites:** Docker Sandboxes CLI (`sbx`) and a supported agent. Docker Desktop is not required to run `sbx`. The application stack uses Docker Engine and Docker Compose inside the sandbox.
