@@ -1,4 +1,4 @@
-# 04 — Control network access
+# 04 , Control network access
 
 The sandbox provides an outbound network proxy and policy controls. In this exercise, add a deny rule scoped to the IncidentHub sandbox, check the decision, attempt a request, and inspect the policy log.
 
@@ -58,4 +58,4 @@ The app itself does not need access to `example.com`; this is only a controlled 
 
 **Checkpoint:** explain the difference between isolating a process (Contain) and controlling where it can connect (Control).
 
-Continue to [05 — Fix the incident](05-fix.md).
+Continue to [05 , Fix the incident](05-fix.md).
