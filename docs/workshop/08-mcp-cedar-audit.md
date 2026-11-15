@@ -42,30 +42,44 @@ An organization administrator creates an MCP access policy in Docker Home under 
 The following is an illustrative allowlist policy. Adapt the server identity and tool names to the instructor's actual MCP server and validate it in the policy editor before enforcing it:
 
 ```cedar
-// Permit registration of the approved MCP server.
+// Permit registration only under the expected name and endpoint identity.
 permit (
   principal,
   action == MCP::Action::"register",
   resource
 )
 when {
-  resource in MCP::Server::"incidenthub-readonly"
+  resource in MCP::Server::"incidenthub-readonly" &&
+  resource.identityURL == "https://mcp.example.org/incidenthub/mcp"
 };
 
-// Permit only the read-only incident lookup tool.
+// Permit only tools marked read-only on this registered server.
 permit (
   principal,
   action == MCP::Action::"invokeTool",
   resource
 )
 when {
-  resource.name == "list_incidents"
+  resource in MCP::Server::"incidenthub-readonly" &&
+  resource.readOnly == true
+};
+
+// Require in-session confirmation for non-read-only tools on this server.
+@requireApproval("Confirm IncidentHub write operation")
+permit (
+  principal,
+  action == MCP::Action::"invokeTool",
+  resource
+)
+when {
+  resource in MCP::Server::"incidenthub-readonly" &&
+  resource.readOnly == false
 };
 ```
 
 Cedar evaluates the MCP gateway request using principal, action, resource and context. The organization/team policy scope supplies the principal, so do not add principal role or team attribute checks to the Cedar statement. Tool names are bare names, not display-prefixed names. For a production policy, scope tool permits to the intended server identity as well as the tool name, and add explicit rules for resources, prompts and built-in gateway tools where needed.
 
-A policy that only permits `list_incidents` should leave write tools such as `acknowledge_incident` denied by default. If you later permit a write tool, consider an approval-gated permit:
+The `readOnly` annotation is supplied by the MCP server and is advisory. Tools without a read-only annotation default to `false`, so this policy treats them as write-capable and requires confirmation. A matching `forbid` overrides the approval-gated permit.
 
 ```cedar
 @requireApproval("Confirm incident acknowledgement")
