@@ -12,6 +12,7 @@ See the complete [architecture diagram](docs/architecture.md), including the Doc
 - **Database:** PostgreSQL with two synthetic incidents seeded on first startup.
 - **Queue:** Redis for incident event notifications.
 - **Worker:** Background process consuming acknowledgement events.
+- **MCP server:** FastMCP Streamable HTTP service exposing incident lookup and acknowledgement tools through the Docker Sandboxes MCP gateway.
 - **Dashboard:** Minimal browser UI at http://localhost:8000.
 
 ## Run with Docker Sandboxes
