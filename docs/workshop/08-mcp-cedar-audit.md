@@ -9,7 +9,7 @@ This optional governance module extends the Four Cs with **MCP protection**, **C
 > - Organization governance and audit logs cover governed local sandboxes. Audit logs do not cover cloud sandboxes. Cloud network decisions have separate cloud policy logs.
 > - A governed MCP request is default-deny unless a matching Cedar `permit` allows it. A matching `forbid` overrides a permit.
 
-## 1. Start and register the IncidentHub MCP server
+## 1. Start the IncidentHub MCP server
 
 The repository includes a real FastMCP service at `mcp-server/`. Compose starts it alongside the API. It exposes four tools:
 
@@ -99,17 +99,6 @@ Cedar evaluates the MCP gateway request using principal, action, resource and co
 
 The `readOnly` and `destructive` annotations are supplied by the MCP server and are advisory. IncidentHub marks its three lookup tools as read-only and its acknowledgement tool as non-read-only and destructive. Tools without a read-only annotation default to `false`, so this policy treats them as write-capable and requires confirmation. A matching `forbid` overrides the approval-gated permit.
 
-```cedar
-@requireApproval("Confirm incident acknowledgement")
-permit (
-  principal,
-  action == MCP::Action::"invokeTool",
-  resource
-)
-when {
-  resource.name == "acknowledge_incident"
-};
-```
 
 A matching `forbid` still overrides an approval-gated permit. Approval is an in-session confirmation, not an out-of-band approval workflow. Tool listings may still show tools that will be denied when invoked.
 
