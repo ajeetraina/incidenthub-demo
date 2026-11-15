@@ -25,14 +25,14 @@ Start the stack from the repository root inside the running sandbox:
 ```bash
 sbx exec incidenthub-local -- docker compose up --build -d
 sbx exec incidenthub-local -- docker compose ps
-sbx exec incidenthub-local -- curl -fsS http://localhost:8001/health
+sbx exec incidenthub-local -- python3 -c "import socket; socket.create_connection(('127.0.0.1', 8001), timeout=2).close(); print('MCP port is listening')"
 ```
 
 Publish the MCP endpoint to a loopback-only host port:
 
 ```bash
 sbx ports incidenthub-local --publish 18001:8001
-curl -fsS http://localhost:18001/health
+python3 -c "import socket; socket.create_connection(('127.0.0.1', 18001), timeout=2).close(); print('Forwarded MCP port is reachable')"
 ```
 
 Register it as a remote Streamable HTTP server. The SSRF-check bypass is needed because this workshop intentionally uses a loopback URL. Use it only for this trusted local demo endpoint:
@@ -56,7 +56,7 @@ sbx exec incidenthub-local -- docker compose run --rm mcp-server python -m unitt
 
 An organization administrator creates an MCP access policy in Docker Home under **AI Platform > Policies**, scopes it to the workshop team, and publishes it to licensed members.
 
-The following is an allowlist policy for the local demo endpoint published on host port 18001. If you choose another host port, update the identity URL to match the exact URL used by sbx mcp add. Adapt the server identity and tool names to the instructor's actual MCP server and validate it in the policy editor before enforcing it:
+The following is an allowlist policy for the local demo endpoint published on host port 18001. If you choose another host port, update the identity URL to match the exact URL used by sbx mcp add. Validate it in the policy editor before enforcing it:
 
 ```cedar
 // Permit registration only under the expected name and endpoint identity.
@@ -92,6 +92,16 @@ when {
   resource in MCP::Server::"incidenthub-readonly" &&
   resource.readOnly == false
 };
+```
+
+
+After the organization administrator publishes the policy to the workshop team, register and load the MCP server. Registration is also subject to Cedar, so do this after the registration permit is active:
+
+```bash
+sbx mcp add incidenthub-readonly --url http://localhost:18001/mcp --skip-ssrf-check
+sbx mcp inspect incidenthub-readonly
+sbx mcp load incidenthub-readonly --sandbox incidenthub-local
+sbx mcp ls
 ```
 
 Cedar evaluates the MCP gateway request using principal, action, resource and context. The organization/team policy scope supplies the principal, so do not add principal role or team attribute checks to the Cedar statement. Tool names are bare names, not display-prefixed names. The policy scopes both registration and tool use to the registered server name. The server identity URL must match the exact remote URL registered on the host.
