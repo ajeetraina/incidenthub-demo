@@ -10,7 +10,7 @@ flowchart TB
     CLI["Docker Sandboxes CLI (sbx)"]
     Browser["Browser on developer host"]
 
-    subgraph Boundary["Docker Sandbox — isolated MicroVM"]
+    subgraph Boundary["Docker Sandbox , isolated MicroVM"]
       Agent["Coding agent\nClaude Code"]
       Engine["Sandbox-local Docker Engine\n(not the host Docker socket)"]
       Compose["Docker Compose"]
