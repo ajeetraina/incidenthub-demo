@@ -1,4 +1,4 @@
-# 01 — Prepare your environment
+# 01 , Prepare your environment
 
 ## 1. Install and sign in to Docker Sandboxes
 
@@ -75,4 +75,4 @@ Open [the architecture diagram](../architecture.md). The important distinction i
 
 **Checkpoint:** `sbx version` works, you are signed in, the repo is cloned, and you can explain why Docker Desktop is not a prerequisite.
 
-Continue to [02 — Create the local sandbox](02-local-sandbox.md).
+Continue to [02 , Create the local sandbox](02-local-sandbox.md).
