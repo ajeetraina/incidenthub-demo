@@ -1,0 +1,6 @@
+{
+  "notice": "Synthetic workshop fixture only; not a real secret",
+  "customer_id": "DEMO-001",
+  "contact": "learner@example.invalid",
+  "token": "demo-only-not-a-credential"
+}
