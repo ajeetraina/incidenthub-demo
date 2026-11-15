@@ -1,4 +1,4 @@
-# 00 — Start here
+# 00 , Start here
 
 ## The story
 
@@ -14,7 +14,7 @@ The application is deliberately small but realistic enough to demonstrate the fu
 
 The incident evidence also includes a prompt-injection attempt. It asks the agent to read local configuration and send it to an external destination. That text is part of the incident record; it is not an instruction.
 
-## What you will learn — the Four Cs
+## What you will learn , the Four Cs
 
 1. **Contain:** run the coding agent inside an isolated MicroVM with its own Docker Engine.
 2. **Control:** govern the destinations the agent can reach through network policy.
@@ -31,4 +31,4 @@ By the end of the workshop, you should be able to:
 - Demonstrate a scoped network deny rule and inspect the policy log.
 - Explain what changes between local and cloud sandboxes.
 
-Continue to [01 — Prepare your environment](01-prepare.md).
+Continue to [01 , Prepare your environment](01-prepare.md).
