@@ -1,4 +1,4 @@
-# 06 — Repeat in Cloud Sandboxes
+# 06 , Repeat in Cloud Sandboxes
 
 This is the Capacity exercise. A Cloud Sandbox runs on Docker-managed infrastructure. It has its own workspace, credentials, network policy and lifecycle. It does not mount your laptop's project directory.
 
@@ -111,4 +111,4 @@ Cloud sandboxes expire after one hour by default. Check the TTL and timeout acti
 
 **Checkpoint:** explain why the repository had to be cloned again and why local credentials and policies did not automatically transfer.
 
-Continue to [07 — Cleanup and wrap up](07-cleanup.md).
+Continue to [07 , Cleanup and wrap up](07-cleanup.md).
