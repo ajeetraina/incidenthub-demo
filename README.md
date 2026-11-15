@@ -33,7 +33,7 @@ In a second host terminal, start the application inside the sandbox:
 sbx exec incidenthub-local -- docker compose up --build -d
 sbx exec incidenthub-local -- docker compose ps
 sbx exec incidenthub-local -- curl -fsS http://localhost:8000/api/health
-sbx exec incidenthub-local -- curl -fsS http://localhost:8001/health
+sbx exec incidenthub-local -- python3 -c "import socket; socket.create_connection(('127.0.0.1', 8001), timeout=2).close(); print('MCP port is listening')"
 ```
 
 Open http://localhost:8000 on the host. To attach the bundled MCP server to this sandbox, publish its port and register the remote endpoint from the host:
