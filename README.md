@@ -1,10 +1,12 @@
 # IncidentHub
 
-**A synthetic incident-response application fo a workshop: “Trust the Box, Not the Agent: Sandboxing Coding Agents from Laptop to Cloud.”**
+**A synthetic incident-response application for a workshop: “Trust the Box, Not the Agent: Sandboxing Coding Agents from Laptop to Cloud.”**
 
 IncidentHub gives a coding agent a realistic task: investigate a checkout latency incident, identify a deliberate regression, write a regression test and fix it. The incident evidence also contains a clearly marked prompt-injection attempt, demonstrating why untrusted content must not become instructions.
 
 ## Architecture
+
+See the complete [architecture diagram](docs/architecture.md), including the Docker Sandbox boundary, agent, Docker Engine, Compose services, data flows and Four Cs security model.
 
 - **API:** FastAPI service exposing health, incident, acknowledgement and checkout-summary endpoints.
 - **Database:** PostgreSQL with two synthetic incidents seeded on first startup.
@@ -14,7 +16,7 @@ IncidentHub gives a coding agent a realistic task: investigate a checkout latenc
 
 ## Run locally
 
-Requirements: Docker Engine/Desktop with Compose.
+Requirements: Docker Sandboxes CLI (`sbx`) and a supported coding agent. Docker Desktop is not required to run `sbx`; the application stack uses Docker Engine and Docker Compose inside the sandbox.
 
 ```bash
 docker compose up --build -d
