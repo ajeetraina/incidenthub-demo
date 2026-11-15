@@ -16,6 +16,9 @@ This is the participant runbook. Follow the pages in order. Each page contains t
 | [05 , Fix the incident](05-fix.md) | Give the agent a bounded task and verify the regression test | 10 min |
 | [06 , Repeat in Cloud Sandboxes](06-cloud.md) | Clone, run, attach, expose a port and clean up cloud resources | 10 min |
 | [07 , Cleanup and wrap up](07-cleanup.md) | Stop services, remove sandboxes, preserve code changes | 3 min |
+| [08 , MCP, Cedar and audit logs](08-mcp-cedar-audit.md) | Govern MCP access and inspect audit evidence | 12 min |
+
+The governance module on Page 08 is an optional administrator-led extension. It requires Docker AI Governance, an organization policy scope, and an administrator with policy and audit permissions. The core local sandbox workshop can be completed without it.
 
 ## Prerequisites
 
