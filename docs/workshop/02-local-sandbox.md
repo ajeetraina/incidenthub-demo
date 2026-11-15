@@ -1,4 +1,4 @@
-# 02 — Create the local sandbox
+# 02 , Create the local sandbox
 
 This page starts the agent and the IncidentHub services in a local MicroVM sandbox.
 
@@ -86,4 +86,4 @@ Then open http://localhost:8080.
 
 **Checkpoint:** dashboard loads and the health endpoint returns `ok`.
 
-Continue to [03 — Investigate the incident](03-investigate.md).
+Continue to [03 , Investigate the incident](03-investigate.md).
