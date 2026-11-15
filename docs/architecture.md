@@ -60,7 +60,7 @@ flowchart TB
     classDef service fill:#17372f,stroke:#58c99a,color:#f4fff9
     classDef data fill:#3b2d18,stroke:#e5b45e,color:#fff8e8
     class Dev,CLI,Browser,Agent,Workspace actor
-    class Engine,Compose,UI,API,Worker service
+    class Engine,Compose,UI,API,Worker,MCP service
     class DB,Redis data
 ```
 
