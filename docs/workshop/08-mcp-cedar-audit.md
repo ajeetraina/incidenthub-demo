@@ -37,12 +37,6 @@ python3 -c "import socket; socket.create_connection(('127.0.0.1', 18001), timeou
 
 Register it as a remote Streamable HTTP server. The SSRF-check bypass is needed because this workshop intentionally uses a loopback URL. Use it only for this trusted local demo endpoint:
 
-```bash
-sbx mcp add incidenthub-readonly --url http://localhost:18001/mcp --skip-ssrf-check
-sbx mcp inspect incidenthub-readonly
-sbx mcp load incidenthub-readonly --sandbox incidenthub-local
-sbx mcp ls
-```
 
 The MCP server runs in the sandbox's Compose network. The host port is bound to loopback by `sbx ports`; do not publish port 8001 to a public interface. The agent connects to the Docker Sandboxes MCP gateway, not directly to the MCP server.
 
