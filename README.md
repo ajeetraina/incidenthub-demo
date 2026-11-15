@@ -51,6 +51,8 @@ sbx exec incidenthub-local -- python3 -m pytest -q tests/test_checkout_latency.p
 
 ## Docker Sandboxes workshop
 
+The companion workshop guide now includes an optional [MCP, Cedar policy and audit logs module](docs/workshop/08-mcp-cedar-audit.md). It demonstrates least-privilege MCP access through the Docker MCP gateway, organization-scoped Cedar authorization, and audit evidence. These governance controls require Docker AI Governance and are distinct from the core sandbox workflow.
+
 The companion Simspace lab will cover the Four Cs:
 
 1. **Contain** , run the coding agent inside a MicroVM sandbox.
