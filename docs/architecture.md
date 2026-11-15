@@ -44,8 +44,6 @@ flowchart TB
     end
 
     Admin --> Cedar
-    Cedar -->|"governs MCP gateway requests"| Boundary
-    Boundary -->|"policy decision metadata"| Audit
     Admin --> Audit
     Dev --> CLI
     CLI -->|"create / attach / manage"| Boundary
