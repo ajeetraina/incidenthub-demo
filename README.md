@@ -14,24 +14,33 @@ See the complete [architecture diagram](docs/architecture.md), including the Doc
 - **Worker:** Background process consuming acknowledgement events.
 - **Dashboard:** Minimal browser UI at http://localhost:8000.
 
-## Run locally
+## Run with Docker Sandboxes
 
-Requirements: Docker Sandboxes CLI (`sbx`) and a supported coding agent. Docker Desktop is not required to run `sbx`; the application stack uses Docker Engine and Docker Compose inside the sandbox.
+The recommended workshop flow runs the agent and application inside a Docker Sandbox. **Docker Desktop and a host Docker Engine are not required to run `sbx`**; the sandbox has its own MicroVM and Docker Engine.
 
-```bash
-docker compose up --build -d
-docker compose ps
-curl -fsS http://localhost:8000/api/health
-```
+For the complete page-by-page walkthrough, including every command for local and cloud sandboxes, see the [IncidentHub workshop guide](docs/workshop/README.md).
 
-Open http://localhost:8000. The checkout summary endpoint intentionally sleeps for 1.25 seconds. The regression test expects it to respond in under 350ms and should fail before the workshop fix.
+Quick start from the repository root:
 
 ```bash
-python -m pip install -r api/requirements-dev.txt
-python -m pytest -q tests/
+sbx login
+sbx run --name incidenthub-local --publish 8000:8000 claude .
 ```
 
-After the agent removes the deliberate delay, run the test again. Stop with `docker compose down`; reset seeded data with `docker compose down -v`.
+In a second host terminal, start the application inside the sandbox:
+
+```bash
+sbx exec incidenthub-local -- docker compose up --build -d
+sbx exec incidenthub-local -- docker compose ps
+sbx exec incidenthub-local -- curl -fsS http://localhost:8000/api/health
+```
+
+Open http://localhost:8000 on the host. The checkout summary endpoint intentionally sleeps for 1.25 seconds; the regression test expects a response in under 350ms and should fail before the workshop fix.
+
+```bash
+sbx exec incidenthub-local -- python3 -m pip install pytest==8.3.5
+sbx exec incidenthub-local -- python3 -m pytest -q tests/test_checkout_latency.py
+```
 
 ## Safety
 
