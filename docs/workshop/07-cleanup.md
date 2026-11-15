@@ -1,4 +1,4 @@
-# 07 — Cleanup and wrap up
+# 07 , Cleanup and wrap up
 
 Clean up the application stack, sandbox resources, temporary network rules and any cloud resources.
 
