@@ -35,9 +35,6 @@ sbx ports incidenthub-local --publish 18001:8001
 python3 -c "import socket; socket.create_connection(('127.0.0.1', 18001), timeout=2).close(); print('Forwarded MCP port is reachable')"
 ```
 
-Register it as a remote Streamable HTTP server. The SSRF-check bypass is needed because this workshop intentionally uses a loopback URL. Use it only for this trusted local demo endpoint:
-
-
 The MCP server runs in the sandbox's Compose network. The host port is bound to loopback by `sbx ports`; do not publish port 8001 to a public interface. The agent connects to the Docker Sandboxes MCP gateway, not directly to the MCP server.
 
 Test the service code independently of the agent:
