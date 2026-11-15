@@ -49,7 +49,7 @@ def _request(method: str, path: str) -> Any:
         raise RuntimeError(f"IncidentHub API is unavailable: {exc.__class__.__name__}") from exc
 
 
-@mcp.tool(annotations={"readOnlyHint": True, "destructiveHint": False})
+@mcp.tool(annotations={"readOnlyHint": True, "destructiveHint": False, "openWorldHint": False})
 def list_incidents(service: str | None = None, status: str | None = None) -> list[dict[str, Any]]:
     """List synthetic incidents. Optional filters: service and status. Read-only."""
     incidents = _request("GET", "/api/incidents")
@@ -60,7 +60,7 @@ def list_incidents(service: str | None = None, status: str | None = None) -> lis
     return incidents
 
 
-@mcp.tool(annotations={"readOnlyHint": True, "destructiveHint": False})
+@mcp.tool(annotations={"readOnlyHint": True, "destructiveHint": False, "openWorldHint": False})
 def get_incident(incident_id: str) -> dict[str, Any]:
     """Get one synthetic incident by ID. Read-only."""
     if not incident_id or len(incident_id) > 128:
@@ -72,13 +72,13 @@ def get_incident(incident_id: str) -> dict[str, Any]:
     raise ValueError(f"Incident not found: {incident_id}")
 
 
-@mcp.tool(annotations={"readOnlyHint": True, "destructiveHint": False})
+@mcp.tool(annotations={"readOnlyHint": True, "destructiveHint": False, "openWorldHint": False})
 def get_checkout_summary() -> dict[str, Any]:
     """Read the checkout incident count from the summary endpoint. Read-only."""
     return _request("GET", "/api/checkout/summary")
 
 
-@mcp.tool(annotations={"readOnlyHint": False, "destructiveHint": True})
+@mcp.tool(annotations={"readOnlyHint": False, "destructiveHint": True, "openWorldHint": False})
 def acknowledge_incident(incident_id: str) -> dict[str, Any]:
     """Acknowledge an incident. WRITE operation: require explicit authorization."""
     if not incident_id or len(incident_id) > 128:
