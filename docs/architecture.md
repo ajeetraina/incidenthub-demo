@@ -8,6 +8,9 @@ This diagram shows the complete workshop topology, including the Docker Sandbox 
 flowchart TB
     Dev["Developer / Workshop participant"]
     CLI["Docker Sandboxes CLI (sbx)"]
+    Admin["Organization admin\nDocker AI Governance"]
+    Cedar["Cedar MCP policy\n(default deny + permits)"]
+    Audit["Audit logs\n(policy decisions + lifecycle)"]
     Browser["Browser on developer host"]
 
     subgraph Boundary["Docker Sandbox , isolated MicroVM"]
@@ -37,6 +40,10 @@ flowchart TB
       Redis -->|"BRPOP event"| Worker
     end
 
+    Admin --> Cedar
+    Cedar -->|"governs MCP gateway requests"| Boundary
+    Boundary -->|"policy decision metadata"| Audit
+    Admin --> Audit
     Dev --> CLI
     CLI -->|"create / attach / manage"| Boundary
     Browser -->|"HTTP :8000 via sandbox-published port"| UI
@@ -64,6 +71,8 @@ flowchart TB
 - **Contain:** the coding agent and its commands execute inside the MicroVM boundary. The sandbox uses its own Docker Engine rather than mounting the host Docker socket.
 - **Control:** outbound agent traffic is governed by the sandbox network policy/proxy. The Compose application network is separate from the agent's outbound network path.
 - **Choice:** only task-appropriate tools and MCP servers should be made available to the agent. Prefer read-only incident lookup capabilities for this exercise.
+- **Govern:** organization-scoped Cedar MCP policies can allow or deny server registration and gateway-mediated tool, resource, prompt and built-in gateway operations. This requires Docker AI Governance and applies to governed local sandboxes. Pair it with network policy because direct MCP connections are governed by outbound network rules, not gateway Cedar policy.
+- **Audit:** audit logs record policy decisions and sandbox lifecycle metadata for governed local sandboxes. They do not capture prompts, agent output or tool argument values. Cloud sandboxes use separate cloud policy logs.
 - **Capacity:** local and cloud sandboxes are separate environments. A cloud sandbox does not automatically inherit the local workspace, credentials or policy; clone the repository and configure required resources there.
 
 ## Components
@@ -79,5 +88,8 @@ flowchart TB
 | Redis | Buffers acknowledgement events |
 | Worker | Consumes events from Redis |
 | Regression test | Checks that checkout summary responds in under 350ms |
+| MCP gateway | Brokers registered MCP servers for supported agents |
+| Cedar MCP policy | Organization-level authorization for gateway-mediated MCP operations |
+| Audit logs | Records policy decisions and sandbox lifecycle metadata for governed local sandboxes |
 
 > **Prerequisites:** Docker Sandboxes CLI (`sbx`) and a supported agent. Docker Desktop is not required to run `sbx`. The application stack uses Docker Engine and Docker Compose inside the sandbox.
